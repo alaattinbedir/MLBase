@@ -7,7 +7,7 @@
 
 import Foundation
 import UIKit
-import MLCommon
+import MLExtensions
 
 public enum EmbedController {
     case none
