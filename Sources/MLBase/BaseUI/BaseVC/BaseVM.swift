@@ -9,9 +9,12 @@
 import UIKit
 import RxSwift
 
+public protocol ViewState {}
+
 open class BaseVM {
     public let disposeBag = DisposeBag()
-    var isTimeout = false
+
+    public var state = PublishSubject<ViewState>()
 
     required public init() {
         // Intentionally unimplemented

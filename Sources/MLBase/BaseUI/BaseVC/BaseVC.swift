@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import RxSwift
 
 public protocol ViewModelData {}
 
@@ -14,9 +15,16 @@ open class BaseVC<VM>: BaseDataVC where VM: BaseVM {
 
     open override func viewDidLoad() {
         super.viewDidLoad()
+        subscribeViewStateChanges()
         setResources()
         setAccessibilityIdentifiers()
         print("*** \(String(describing: type(of: self))) initialized")
+    }
+
+    private func subscribeViewStateChanges() {
+        viewModel.state.subscribe { [weak self] state in
+            self?.onStateChanged(state)
+        }.disposed(by: viewModel.disposeBag)
     }
 
     open override func viewDidDisappear(_ animated: Bool) {
@@ -25,6 +33,10 @@ open class BaseVC<VM>: BaseDataVC where VM: BaseVM {
 
     open override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
+    }
+
+    open func onStateChanged(_ state: ViewState) {
+        // Intentionally unimplemented
     }
 
     open func setResources() {
